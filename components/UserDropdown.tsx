@@ -64,11 +64,11 @@ const userDropdown = () => {
     </div>
     </DropdownMenuLabel>
     <DropdownMenuSeparator className="bg-gray-600"/>
-        <DropdownMenuItem onClick={handlesignout} className="text-gray-100 tex-md font-medium focus:bg-transparent focus:text-yellow-500 transistion-colors cursor-pointer">
-            <LogOut className="h-4 w-4 mr-2 hidden sm:block" />
-            Sign out
-        </DropdownMenuItem>
-            <DropdownMenuSeparator className="bg-gray-600"/>
+    <DropdownMenuItem onClick={handlesignout} className="text-gray-100 tex-md font-medium focus:bg-transparent focus:text-yellow-500 transistion-colors cursor-pointer">
+        <LogOut className="h-4 w-4 mr-2 hidden sm:block" />
+        Sign out
+    </DropdownMenuItem>
+    <DropdownMenuSeparator className="bg-gray-600"/>
             <nav className="sm:hidden">
                 <NavItems />
             </nav>
