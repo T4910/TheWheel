@@ -1,13 +1,13 @@
 import {inngest} from "@/lib/inngest/client";
 import { PERSONALIZED_WELCOME_EMAIL_PROMPT} from "@/lib/inngest/prompt";
-// import {sendNewsSummaryEmail, sendWelcomeEmail} from "@/lib/nodemailer";
+import {sendNewsSummaryEmail, sendWelcomeEmail} from "@/lib/nodemailer";
 // import {getAllUsersForNewsEmail} from "@/lib/actions/user.actions";
 // import { getWatchlistSymbolsByEmail } from "@/lib/actions/watchlist.actions";
 // import { getNews } from "@/lib/actions/finnhub.actions";
 // import { getFormattedTodayDate } from "@/lib/utils";
 
 export const sendSignUpEmail = inngest.createFunction(
-    { id: 'sign-up-email' },
+    { id: 'sign-up-email'},
     { event: 'app/user.created'},
     async ({ event, step }) => {
         const userProfile = `
@@ -20,20 +20,20 @@ export const sendSignUpEmail = inngest.createFunction(
         const prompt = PERSONALIZED_WELCOME_EMAIL_PROMPT.replace('{{userProfile}}', userProfile)
 
         const response = await step.ai.infer('generate-welcome-intro', {
-            model: step.ai.models.gemini({ model: 'gemini-3.1-pro' }),
-            body: {
-                contents: [
-                    {
-                        role: 'user',
-                        parts: [
-                            { text: prompt }
-                        ]
-                    }]
-            }
+            model: step.ai.models.gemini({ model: 'gemini-1.5-flash'}),
+                body: {
+                    contents: [
+                        {
+                            role: 'user',
+                            parts: [
+                                { text: prompt }
+                            ]
+                        }]
+                }
         })
 
         await step.run('send-welcome-email', async () => {
-            const part = response.candidates?.[0]?.content?.parts?.[0];
+            const part = response?.candidates?.[0]?.content?.parts?.[0];
             const introText = (part && 'text' in part ? part.text : null) ||'Thanks for joining Signalist. You now have the tools to track markets and make smarter moves.'
 
             // const { data: { email, name } } = event;
@@ -43,7 +43,7 @@ export const sendSignUpEmail = inngest.createFunction(
 
         return {
             success: true,
-            message: 'Welcome email sent successfully'
+            message: 'Welcome email process completed'
         }
     }
 )
@@ -88,7 +88,7 @@ export const sendSignUpEmail = inngest.createFunction(
 //                     const prompt = NEWS_SUMMARY_EMAIL_PROMPT.replace('{{newsData}}', JSON.stringify(articles, null, 2));
 
 //                     const response = await step.ai.infer(`summarize-news-${user.email}`, {
-//                         model: step.ai.models.gemini({ model: 'gemini-2.5-flash-lite' }),
+//                         model: step.ai.models.gemini({ model: 'gemini-2.0-flash' }),
 //                         body: {
 //                             contents: [{ role: 'user', parts: [{ text:prompt }]}]
 //                         }
