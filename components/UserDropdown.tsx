@@ -15,14 +15,19 @@ import { useRouter } from "next/navigation"
 import { LogOut } from "lucide-react"
 import NavItems from "./NavItems"
 
-const UserDropdown = ({user}: {user: User}) => {
+const userDropdown = () => {
  const router = useRouter()
 
  const handlesignout = () => {
     router.push('/sign-in')
  }
 
-return (
+ const user = {
+    name: 'John Doe',
+    email: 'contact@signalist.com',
+    image: 'https://via.placeholder.com/150'
+ }
+  return (
     <DropdownMenu>
   <DropdownMenuTrigger asChild>
     <Button variant="ghost" className="flex items-center gap-3 text-gray-4 hover:text-yellow-500">
@@ -72,4 +77,4 @@ return (
   )
 }
 
-export default UserDropdown
+export default userDropdown
